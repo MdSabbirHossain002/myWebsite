@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>typing Master</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	
+</head>
+<body>
+<div class="container d-flex justify-content-center flex-column align-items-center" style="height:100vh">
+    <h1 id="display" class="display-1">Typing Test</h1>
+    <p>Bangladesh, to the east of India on the Bay of Bengal, is a South Asian country marked by lush greenery and many waterways. Its Padma (Ganges), Meghna and Jamuna rivers create fertile plains, and travel by boat is common. On the southern coast, the Sundarbans, an enormous mangrove forest shared with Eastern India, is home to the royal Bengal tiger.</p>
+    <textarea class="w-100" onkeyup="report()" name="input" id="input" placeholder="start typing here..."></textarea>
+    <button style="width:25%;"class="btn btn-primary align-middle" id="stop" id="stop()">Stop typing</button>
+</div
+<div style="background:#ddd; text-align:center;">
+Md Sabbir Hossain || All right reserved || &copy; Copyright - 2022
+</div>
+<script>
+    // let text = "A brown fox jump over the lazy dog."
+    // function countText(text) {
+    //     let word = text.split(' ').length;
+    //     let char = text.length
+        
+    //     //let char = text.charCodeAt(0); //.charAt(3), text[3], text.split(' ')
+    //     // console.log(text);
+    //     // console.log('word: '+ word);
+    //     // console.log('character: '+ char);
+        
+    // }
+    // countText(text);
+    
+    
+    var count;
+    var sec = 0;
+
+    document.querySelector('#input').addEventListener('click', ()=>{
+        if (count) {
+            clearInterval(count);
+            console.log('there was count');
+        }
+        count = setInterval(()=>{
+            sec=sec+1;
+            console.log(sec);
+            
+        },1000);
+    });
+    var stop = document.querySelector('#stop');
+    stop.addEventListener('click',()=>{
+        clearInterval(count);
+        console.log();    
+    })
+    
+    function report(min) {
+        document.querySelector('#display').innerHTML =document.querySelector('#input').value ;
+        document.querySelector('#stop').style.display = 'block';
+            let text, word, char, wpm ;
+            text = document.querySelector('#input').value.trim();
+            word = text.split(' ').length;
+            char = text.length;
+            console.log(text+'word: '+word+'char:'+char);
+            var min = sec/60;
+            wpm = Math.floor(word / min);
+            document.querySelector('#display').innerHTML = `word per minute: ${wpm}`;
+            console.log('sec: '+sec);
+            
+        
+        
+                
+    }
+</script>
+</body>
+
+</html>
