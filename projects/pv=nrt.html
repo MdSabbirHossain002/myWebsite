@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application of IDeal Gas Equation</title>
+    <style>
+        .main:nth-child(1) {
+            background-color: #bbb;
+            color:red;
+        }
+    </style>
+</head>
+<body>
+<h2 style="text-align: center;">আদর্শ গ্যাস সমীকরণের ব্যবহার <br> (Application of IDeal Gas Equation)</h2>
+<main class="main" >
+<div class="m"style="background-color: #ddd;padding:10px 0">
+    <label for="M">আনবিক ভর: M = </label>
+    <input type="number" step="0.00001" name="p" placeholder="চাপ" id="p">
+    <input type="number" step="0.00001" name="v" placeholder="আয়তন" id="v">
+    <input type="number" step="0.00001" name="" placeholder="তাপমাত্রা" id="t">
+    <input type="number" step="0.00001" name="" placeholder="গ্যাসের ভর" id="w">
+    <input type="number" step="0.00001" name="" placeholder="ধ্রুবক" id="r">
+    <input type="submit" onclick="calcM()" value="Calculate M">
+    <span id="mResult">result(m): </span>
+</div><br>
+<div class="d">
+    <label for="d">গ্যাসের ঘনত্ব d = </label>
+    <input type="number" step="0.00001" name="p" placeholder="চাপ" id="p">
+    <input type="number" step="0.00001" name="" placeholder="তাপমাত্রা" id="t">
+    <input type="number" step="0.00001" name="" placeholder="গ্যাসের আনবিক ভর" id="m">
+    <input type="number" step="0.00001" name="" placeholder="ধ্রুবক" id="r">
+    <input type="submit" onclick="calcD()" value="Calculate d">
+    <span id="dResult">resul(d): </span>
+</div><br>
+<div class="w"style="background-color: #ddd;padding:10px 0">
+    <label for="M">গ্যাসের ভর W = </label>
+    <input type="number" step="0.00001" name="p" placeholder="চাপ" id="p">
+    <input type="number" step="0.00001" name="v" placeholder="আয়তন" id="v">
+    <input type="number" step="0.00001" name="" placeholder="তাপমাত্রা" id="t">
+    <input type="number" step="0.00001" name="" placeholder="গ্যাসের আনবিক ভর" id="m">
+    <input type="number" step="0.00001" name="" placeholder="ধ্রুবক" id="r">
+    <input type="submit" onclick="calcW()" value="Calculate W">
+    <span id="wResult">result(w): </span>
+</div><br>
+<div class="mol">
+    <label for="M">মোল সংখ্যা: mol = </label>
+    <input type="number" step="0.00001" name="p" placeholder="চাপ" id="p">
+    <input type="number" step="0.00001" name="v" placeholder="আয়তন" id="v">
+    <input type="number" step="0.00001" name="" placeholder="তাপমাত্রা" id="t">
+    <input type="number" step="0.00001" name="" placeholder="ধ্রুবক" id="r">
+    <input type="submit" onclick="calcMol()" value="Calculate mol">
+    <span id="molResult">result(mol): </span>
+</div><br>
+<div class="avo"style="background-color: #ddd;padding:10px 0">
+    <label>গ্যাসের অনু সংখ্যা নির্ণয় N = </label>
+    <input type="number" step="0.00001" name="p" placeholder="চাপ" id="p">
+    <input type="number" step="0.00001" name="v" placeholder="আয়তন" id="v">
+    <input type="number" step="0.00001" name="" placeholder="তাপমাত্রা" id="t">
+    <input type="number" step="0.00001" name="" placeholder="ধ্রুবক" id="r">
+    <input type="number" name="" placeholder="অ্যাভোগেড্রোর সংখ্যা" disabled>
+    <input type="submit" onclick="calcAvo()" value="Calculate avo">
+    <span id="avoResult">result(N): </span>
+</div><br>
+<div class="wtwo">
+    <label>বহিস্কৃত গ্যাসের ভর নির্ণয়  W2 = </label>
+    <input type="number" step="0.00001" name="p" placeholder="আদি গ্যাসের ভর W1" id="w1">
+    <input type="number" step="0.00001" name="v" placeholder="আদি তাপমাত্রাT1 " id="t1">
+    <input type="number" step="0.00001" name="" placeholder="পরির্বতিত তাপমাত্রা T2" id="t2">
+    <input type="submit" onclick="calcWtwo()" value="Calculate W2">
+    <span id="wtwoResult">result(w2): </span>
+</div><br>
+<div class="halfp"style="background-color: #ddd;padding:10px 0">
+    <label>গ্যাসের আংশিক চাপ র্নিণয় P = </label>
+    <input type="number" step="0.00001" name="v" placeholder="আয়তন" id="v">
+    <input type="number" step="0.00001" name="" placeholder="তাপমাত্রা" id="t">
+    <input type="number" step="0.00001" name="n" placeholder="মোল" id="n">
+    <input type="number" step="0.00001" name="" placeholder="ধ্রুবক" id="r">
+    <input type="submit" onclick="calcHalfp()" value="Calculate P">
+    <span id="halfpResult">result(P): </span>
+</div><br>
+</main>
+<script>
+function calcM() {
+    var mResult = document.querySelector("#mResult");
+    var p = document.querySelector("#p").value;
+    var v = document.querySelector("#v").value;
+    var r = document.querySelector("#r").value;
+    var w = document.querySelector("#w").value;
+    var t = document.querySelector("#t").value;
+
+    var m = (w*r*t)/(p*v);
+    mResult.innerHTML += m;
+}
+function calcD() {
+    var dResult = document.querySelector("#dResult");
+    var p = document.querySelector(".d #p").value;
+    var m = document.querySelector(".d #m").value;
+    var r = document.querySelector(".d #r").value;
+    var t = document.querySelector(".d #t").value;
+
+    var d = (m*p)/(r*t);
+    dResult.innerHTML += d;
+}
+function calcW() {
+    var wResult = document.querySelector("#wResult");
+    var p = document.querySelector(".w #p").value;
+    var v = document.querySelector(".w #v").value;
+    var r = document.querySelector(".w #r").value;
+    var m = document.querySelector(".w #m").value;
+    var t = document.querySelector(".w #t").value;
+
+    var w = (p*v*m)/(r*t);
+    wResult.innerHTML += w;
+}
+function calcMol() {
+    var molResult = document.querySelector("#molResult");
+    var p = document.querySelector(".mol #p").value;
+    var v = document.querySelector(".mol #v").value;
+    var r = document.querySelector(".mol #r").value;
+    var t = document.querySelector(".mol #t").value;
+
+    var mol = (p*v)/(r*t);
+    molResult.innerHTML += mol;
+}
+function calcAvo() {
+    var avoResult = document.querySelector("#avoResult");
+    var p = document.querySelector(".avo #p").value;
+    var v = document.querySelector(".avo #v").value;
+    var r = document.querySelector(".avo #r").value;
+    var t = document.querySelector(".avo #t").value;
+    var avo = 6.023* Math.pow(10,23);
+    var n = (p*v*avo)/(r*t);
+    avoResult.innerHTML += n;
+}
+function calcWtwo() {
+    var wtwoResult = document.querySelector("#wtwoResult");
+    var w1 = document.querySelector(".wtwo #w1").value;
+    var t1 = document.querySelector(".wtwo #t1").value;
+    var t2 = document.querySelector(".wtwo #t2").value;
+    var wtwo = (w1*t1)/(t2);
+    wtwoResult.innerHTML += wtwo;
+}
+function calcHalfp() {
+    var halfpResult = document.querySelector("#halfpResult");
+    var n = document.querySelector(".halfp #n").value;
+    var v = document.querySelector(".halfp #v").value;
+    var r = document.querySelector(".halfp #r").value;
+    var t = document.querySelector(".halfp #t").value;
+    var halfp = (n*r*t)/(v);
+    halfpResult.innerHTML += halfp;
+}
+</script>
+
+</body>
+</html>
