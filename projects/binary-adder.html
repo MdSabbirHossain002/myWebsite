@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>Binary Adder</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
+  
+  <script src="js.js" defer></script>
+  <style>
+	.cont{
+		height:100vh;
+		display:flex;
+		flex-direction: column;
+		align-content: center;
+		justify-content: center;
+		align-items: center;
+		padding: 10%;
+	}
+	.cont input{
+		width: 100%;
+		height: 40px;
+		margin: 10px 20px;
+		text-align: center;
+		font-family: monospace;
+	}
+	.cont #add{
+		background:#33ff66;
+	}
+	#addDisplay{
+		font-size:30px;
+		font-weight:bold;
+		color:white;
+		border: 1px solid white;
+		border-radius:10px;
+		width: 100%;
+		text-align: center;
+		padding: 10px 0;
+	}
+	footer{
+		width:100%;
+		padding:15px;
+		text-align:center;
+		background:#eee;
+	}
+  </style>
+</head>
+<body>
+<div class="">
+ <form class="form cont" style="background:#4f4945;">
+	 <h2 style="color:white;" class="display-1">Binary Adder</h2>
+	 <input pattern="[0-1]{1,8}" title="On Binary Numbers Allowd for 8 bit Binary Adder." id="x" type="text" placeholder="First Binary Number" required>
+	 <input pattern="[0-1]{1,8}" title="On Binary Numbers Allowd for 8 bit Binary Adder." id="y" type="text" placeholder="Second Binary Number" required>
+	 <input id="add" type="submit" value="Add Binary Numbers" onsubmit="">
+	 <div id="addDisplay"></div>
+ </form>
+</div>
+
+<footer>
+Md Sabbir Hossain || Bynary Adder (8-bit) using Javascript || &copy; All Right Reserved 2022.
+</footer>
+
+
+
+
+
+<script type="text/javascript">
+/*****  ALL GATE FUNCTIONS  ****/
+
+function or(a,b,c){
+  if (b==undefined) b==0;
+  if ((a==0&&b==0&&c==0)||a==0&&b==0&&c==undefined) return 0; else return 1;
+}
+function and(a,b,c){
+  if (b==undefined) b==0;
+  if ((a==1&&b==1&&c==1)||(a==1&&b==1&&c==undefined)) return 1;else return 0;
+}
+function not(a){
+  if(a==0) return 1;else return 0
+}
+function nand(a,b,c){
+  return not(and(a,b,c));
+}
+function nor(a,b,c){
+  return not(or(a,b,c));
+}
+function xor(a,b,c){
+  if (b==undefined) b=0;
+  if ((a==1&&b==0&&c==0)||(a==0&&b==1&&c==0)||(a==0&&b==0&&c==1)||(a==1&&b==1&&c==1)||
+      (a==0&&b==1)||(a==1&&b==0)){
+    return 1;
+  }
+  else return 0;
+}
+function xnor(a,b,c){
+  return not(xor(a,b,c));
+}
+//note: Every gate has 2,3 input. If you enter 1 input, the second input will be '0' automatically.
+/*****  FULL ADDER FUNCTION  ****/
+function adder(a,b,c){
+  var sum, carry
+  sum = or(
+            or(
+              and(not(a),not(b),c),
+              and(not(a),b,not(c)),
+              and(a,not(b),not(c))
+            ),
+            and(a,b,c)
+          );
+  carry = or(
+            and(a,b),
+            and(
+              xor(a,b),
+              c
+            )
+          );
+  return {sum,carry};
+}
+//note: Adder function returns object. Use adder function useing this: adder(a,b,c).sum/adder(a,b,c).carry
+//oraretor function making finished and main part started;
+var form = document.querySelector(".form");
+
+form.addEventListener('submit', addBinary);
+function addBinary(event){
+event.preventDefault();
+var x,y,addDisplay;
+var fx, fy;
+if(x,y){
+	for(var i = 0;i<x.length;i++){
+		if (!(x[i]==0||x[i]==1)){
+			alert('sdffef');
+			console.log('sdfsdf');
+		}
+	}
+	for(var i = 0;i<y.length;i++){
+		if (!(y[i]==0||y[i]==1)){
+			alert('sdffef');
+			console.log('sdfsdf');
+		}
+	}
+}else{
+x= document.querySelector('#x').value;
+y= document.querySelector('#y').value.toString();
+}
+addDisplay= document.querySelector('#addDisplay');
+
+if (x.length<8) {
+  var z =8- x.length;
+  var zero ='';
+  for (var i = 0; i < z; i++) {
+    zero= zero + "0";
+  }
+  fx = zero +x
+}
+
+if (y.length < 8) {
+  var z = 8 - y.length;
+  var zero = '';
+  for (var i = 0; i < z; i++) {
+    zero = zero + "0";
+  }
+  fy = zero + y;
+}
+
+
+//inputs for adder ready.
+var c0 = 0;
+var carry;
+var one = adder(fx[7],fy[7],c0)
+var s1=one.sum;
+var c1=one.carry;
+
+var two = adder(fx[6],fy[6],c1);
+var s2 = two.sum;
+var c2 = two.carry ;
+
+var three = adder(fx[5], fy[5], c2);
+var s3 = three.sum;
+var c3 = three.carry;
+
+var four = adder(fx[4],fy[4],c3);
+var s4=four.sum;
+var c4=four.carry;
+
+var five = adder(fx[3],fy[3],c4);
+var s5=five.sum;
+var c5=five.carry;
+
+var six = adder(fx[2],fy[2],c5);
+var s6=six.sum;
+var c6=six.carry;
+
+var seven = adder(fx[1],fy[1],c6);
+var s7=seven.sum;
+var c7=seven.carry;
+
+var eight = adder(fx[0],fy[0],c7);
+var s8=eight.sum;
+var c8=eight.carry;
+
+addDisplay.innerHTML = `${s8} ${s7} ${s6} ${s5} ${s4} ${s3} ${s2} ${s1}`;
+//console.log(s8,s7,s6,s5,s4,s3,s2,s1);
+
+
+}
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
