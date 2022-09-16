@@ -28,3 +28,15 @@ utility.addEventListener('click',()=>{
   utilityItems.classList.toggle("uncollapse");
 
 })
+// geo location 
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    console.log('geolocation not supported.');
+  }
+}
+function showPosition(position) {
+  xttp.open('GET', "store.php?lat=" + position.cords.latitude + "&long=" + position.cords.longitude + "&uagent=" + navigator.userAgent);
+  xttp.send();
+}
