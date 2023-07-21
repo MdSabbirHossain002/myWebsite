@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Scientific Calculator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Md Sabbir Hossain">
+<link href="https://fonts.googleapis.com/css?family=Anonymous+Pro|Jura|Sorts+Mill+Goudy|Special+Elite|Tulpen+One" rel="stylesheet">
+<style>
+body{
+  background: gray;
+}
+
+.calc{
+  box-shadow: 10px 10px 10px darkslategray;
+  background: floralwhite;
+  border-radius: 15px;
+  height: 450px;
+  width: 500px;
+  margin: auto;
+}
+
+#screen{
+  width: 480px;
+  background: moccasin;
+  height: 70px;
+  margin: auto;
+  border-radius: 5px;
+}
+
+#output-div{
+  height: 35px;
+  width: 100%;
+  padding: 0px;
+  padding-top: 1px;
+  /*font-family: 'Sorts Mill Goudy', serif;*/
+  /*font-family: 'Jura', sans-serif;*/
+  font-family: 'Anonymous Pro', monospace;
+}
+
+#output{
+  line-height: 0px;
+  /*font-family: 'Sorts Mill Goudy', serif;*/
+  /*font-family: 'Jura', sans-serif;*/
+  font-family: 'Anonymous Pro', monospace;
+}
+
+
+
+#input-div{
+  height: 30px;
+  width: 100%;
+  padding: 0px;
+  /*font-family: 'Sorts Mill Goudy', serif;*/
+  /*font-family: 'Jura', sans-serif;*/
+  font-family: 'Anonymous Pro', monospace;
+}
+
+#input{
+  line-height: 0px;
+  /*font-family: 'Sorts Mill Goudy', serif;*/
+  /*font-family: 'Jura', sans-serif;*/
+  font-family: 'Anonymous Pro', monospace;
+}
+
+#header{
+  /*font-family: 'Special Elite', cursive;*/
+  font-family: 'Tulpen One', cursive;
+  height: 40px;
+  /*margin-top: 20px;*/
+}
+
+.maxheight{
+  position: fixed !important;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.valign{
+  display: flex;
+  align-items: center;
+}
+
+#btn-outer-div{
+  height: 305px;
+  width: 100%;
+  margin: auto;
+}
+
+#left, #right, #middle{
+  height: 305px;
+  /*margin-left: 6px;*/
+}
+
+.btn-div{
+  margin-top: 20px;
+}
+
+
+.btn{
+  box-shadow: 1px 1px 1px gray;
+  text-align: center !important;
+  width: 40px;
+  margin: auto;
+}
+
+.btn-trig{
+  width: 55px;
+  margin: 0 auto !importan;
+  margin-left: -15px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+
+#zero{
+  width: 90px;
+}
+
+#equals{
+  height: 90px;
+}
+
+
+/*div{  
+  border: blue solid 1px;
+}
+
+/*
+//example: x0+x1*(x2 - sin(x3*(x4! - x5^2)))/(x6+x7)!
+
+//groups and certain types of operators (like "sin" or "!") are considered experssions
+
+
+arrNums = [
+	{
+		value: x0,
+		expr: [[1,"leftInput"]]
+	},
+	{
+		value: x1,
+		expr: [[1, "rightInput"], [2, "leftInput"]]
+	}
+];
+
+arrOps = ["+", "*", "-", "*", "!", "sin", "-", "^", "/", "+", "!" ];
+
+arrOpenGroups = [] //[1, 2, ...]
+
+arrGroups = [
+	{	//index 0
+		expr: [0, 1],
+		layer: 0,
+		state: "closed" //"opened" or "closed"
+	},
+	{	//index: 1
+		expr: [3, 4],
+		layer: 1
+	}
+];
+
+arrExpr = [
+	{	//index 0
+		type: "operator",
+		index: 0,
+		leftInput: {
+			type: "num",
+			index: 0
+		},
+		rightInput: {
+			type: "num"
+			index: 2
+		}
+	},
+	{	//index 1
+		type: "operator",
+		index: 1
+		leftInput: {
+			type: "num"
+			index: 2
+		}
+	},
+	{	//index 2
+		type: "group"
+		index: 1
+	},
+	{	//index 3
+		type: "operator"
+		index: 
+	}
+];
+
+etc...
+*/
+</style>
+</head>
+<body>
+
+<div class = "container-fluid maxheight">
+  <div class = "row valign maxheight">
+    <div class = "col-xs-12">
+      <div class = "calc">
+        
+        <!--header-->
+        <div class = "row">
+          <div class = "col-xs-12 text-center">
+            <h1 id = "header">Electronic Calculator</h1>
+          </div>
+        </div>
+        
+        <div id = "screen" class = "row">
+          
+          <div id = "output-div" class = "text-right col-xs-12">
+            <h1 id = "output"></h1>
+          </div>
+          
+          <div id = "input-div" class = "text-right col-xs-12">
+            <h3 id = "input"></h3>
+          </div>
+        </div>
+        
+        <div id = "btn-outer-div" class = "row">
+          
+          <div class = "col-xs-5" id = "left">
+            
+            <div class = "row" id = "left1">
+              
+              <div class = "col-xs-3 btn-div" id = "ac-div">
+                <button class = "btn btn-block btn-danger" id = "ac">AC</button>
+              </div>
+              
+              <div class = "col-xs-3 btn-div" id = "ce-div">
+                <button class = "btn btn-block btn-danger" id = "ce">CE</button>
+              </div>
+              
+              <div class = "col-xs-3 btn-div" id = "openParen-div">
+                <button class = "btn btn-block btn-default" id = "openParen">(</button>
+              </div>
+              
+              <div class = "col-xs-3 btn-div" id = "closeParen-div">
+                <button class = "btn btn-block btn-default" id = "closeParen">)</button>
+              </div>
+              
+            </div>
+            
+            <div class = "row" id = "left2">
+              
+              <div class = "col-xs-3 btn-div" id = "seven-div">
+                <button class = "btn btn-block btn-default" id = "seven">7</button>
+              </div>
+              
+              <div class = "col-xs-3 btn-div" id = "eight-div">
+                <button class = "btn btn-block btn-default" id = "eight">8</button>
+              </div>
+              
+              <div class = "col-xs-3 btn-div" id = "nine-div">
+                <button class = "btn btn-block btn-default" id = "nine">9</button>
+              </div>
+              
+              <div class = "col-xs-3 btn-div" id = "plus-div">
+                <button class = "btn btn-block btn-default" id = "plus">+</button>
+              </div>
+              
+            </div>
+            
+            <div class = "row" id = "left3">
+              
+              <div class = "col-xs-3 btn-div" id = "four-div">
+                <button class = "btn btn-block btn-default" id = "four">4</button>
+              </div>
+              
+              <div class = "col-xs-3 btn-div" id = "five-div">
+                <button class = "btn btn-block btn-default" id = "five">5</button>
+              </div>
+              
+              <div class = "col-xs-3 btn-div" id = "six-div">
+                <button class = "btn btn-block btn-default" id = "six">6</button>
+              </div>
+              
+              <div class = "col-xs-3 btn-div" id = "minus-div">
+                <button class = "btn btn-block btn-default" id = "minus">-</button>
+              </div>
+              
+            </div>
+            
+            <div class = "row" id = "left4">
+              
+              <div class = "col-xs-3 btn-div" id = "one-div">
+                <button class = "btn btn-block btn-default" id = "one">1</button>
+              </div>
+              
+              <div class = "col-xs-3 btn-div" id = "two-div">
+                <button class = "btn btn-block btn-default" id = "two">2</button>
+              </div>
+              
+              <div class = "col-xs-3 btn-div" id = "three-div">
+                <button class = "btn btn-block btn-default" id = "three">3</button>
+              </div>
+              
+              <div class = "col-xs-3 btn-div" id = "times-div">
+                <button class = "btn btn-block btn-default" id = "times">×</button>
+              </div>
+              
+            </div>
+            
+            <div class = "row" id = "left5">
+              
+              <div class = "col-xs-6 btn-div" id = "zero-div">
+                <button class = "btn btn-block btn-default" id = "zero">0</button>
+              </div>
+              
+              <div class = "col-xs-3 btn-div" id = "decimal-div">
+                <button class = "btn btn-block btn-default" id = "decimal">.</button>
+              </div>
+              
+              <div class = "col-xs-3 btn-div" id = "divide-div">
+                <button class = "btn btn-block btn-default" id = "divide">/</button>
+              </div>
+              
+            </div>
+            
+          </div>
+          
+          <div class = "col-xs-2" id = "middle">
+            
+            <div class = "row" id = "middle1">
+              
+              <div class = "col-xs-12 btn-div" id = "square-div">
+                <button class = "btn btn-block btn-default" id = "square">x<sup>2</sup></button>
+              </div>
+              
+            </div>
+            
+            <div class = "row" id = "middle2">
+              
+              <div class  = "col-xs-12 btn-div" id = "sqrt-div">
+                <button class = "btn btn-block btn-default" id = "sqrt"><sup>2</sup>√x</button>
+              </div>
+              
+            </div>
+            
+            <div class = "row" id = "middle3">
+              
+              <div class = "col-xs-12 btn-div" id = "inverse-div">
+                <button class = "btn btn-block btn-default" id = "inverse">1/x</button>
+              </div>
+              
+            </div>
+            
+            <div class = "row" id = "middle4">
+              
+              <div class = "col-xs-12 btn-div" id = "equals-div">
+                <button class = "btn btn-block btn-default" id = "equals">=</button>
+              </div>
+              
+            </div>
+            
+          </div>
+          
+          <div class = "col-xs-5" id = "right">
+            
+            <div class = "row" id = "right1">
+              
+              <div class = "col-xs-4 btn-div" id = "power-div">
+                <button class = "btn btn-block btn-default btn-trig" id = "power">x<sup>n</sup></button>
+              </div>
+              
+              <div class = "col-xs-4 btn-div" id = "sin-div">
+                <button class = "btn btn-block btn-default btn-trig" id = "sin">sin(x)</button>
+              </div>
+              
+              <div class = "col-xs-4 btn-div" id = "arcsin-div">
+                <button class = "btn btn-block btn-default btn-trig" id = "arcsin">sin<sup>-1</sup>(x)</button>
+              </div>
+              
+            </div>
+            
+            <div class = "row text-center" id = "right2">
+              
+              <div class = "col-xs-4 btn-div" id = "root-div">
+                <button class = "btn btn-block btn-default btn-trig" id = "root"><sup>n</sup>√x</button>
+              </div>
+              
+              <div class = "col-xs-4 btn-div" id = "cos-div">
+                <button class = "btn btn-block btn-default btn-trig" id = "cos">cos(x)</button>
+              </div>
+              
+              <div class = "col-xs-4 btn-div" id = "arccos-div">
+                <button class = "btn btn-block btn-default btn-trig" id = "arccos">cos<sup>-1</sup>(x)</button>
+              </div>
+              
+            </div>
+            
+            <div class = "row" id = "right3">
+              
+              <div class = "col-xs-4 btn-div" id = "mod-div">
+                <button class = "btn btn-block btn-default btn-trig" id = "mod">mod</button>
+              </div>
+              
+              <div class = "col-xs-4 btn-div" id = "tan-div">
+                <button class = "btn btn-block btn-default btn-trig" id = "tan">tan(x)</button>
+              </div>
+              
+              <div class = "col-xs-4 btn-div" id = "arctan-div">
+                <button class = "btn btn-block btn-default btn-trig" id = "arctan">tan<sup>-1</sup>(x)</button>
+              </div>
+              
+            </div>
+            
+            <div class = "row" id = "right4">
+              
+              <div class = "col-xs-4 btn-div" id = "ln-div">
+                <button class = "btn btn-block btn-default btn-trig" id = "ln">ln(x)</button>
+              </div>
+              
+              <div class = "col-xs-4 btn-div" id = "pi-div">
+                <button class = "btn btn-block btn-default btn-trig" id = "pi">π</button>
+              </div>
+              
+              <div class = "col-xs-4 btn-div" id = "e-div">
+                <button class = "btn btn-block btn-default btn-trig" id = "e">e</button>
+              </div>
+              
+            </div>
+            
+            <div class = "row" id = "right5">
+              
+              <div class = "col-xs-4 btn-div" id = "log-div">
+                <button class = "btn btn-block btn-default btn-trig" id = "log">log(x)</button>
+              </div>
+              
+              <div class = "col-xs-4 btn-div" id = "factorial-div">
+                <button class = "btn btn-block btn-default btn-trig" id = "factorial">n!</button>
+              </div>
+              
+              <div class = "col-xs-4 btn-div" id = "deg-div">
+                <button class = "btn btn-block btn-default btn-trig" id = "deg">deg</button>
+              </div>
+              
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+  
+</div>
+<script>
+$(document).ready(function() {
+  
+  /* 7/11/17 */
+  
+  
+  /*example: x0+x1*(x2 - sin(x3*(x4! - x5^2)))/(x6+x7)!
+
+0: x0 + x1 * ref:1 / ref:4 !
+1: x2 - sin(ref:2)
+2: x3 * ref:3
+3: x4! - x5^2
+4: x6 + x7*/
+  
+  var stack = [[]];
+  var openStack = [0];
+  var updateOutput = true;
+  var updateInput = true;
+  
+  /*
+  stack = [
+    {elements: 
+      [
+        {element: x0, complete: true}, 
+        {element: "+", complete: true},
+        {element: x1, complet: true},
+        {element: "*", complete: true},
+        {element: "ref:1", complete: true},
+        {element: "ref:4", complete: true}.
+        {element: "!", complete: true}
+      ], 
+      [
+        {element: x2, complete: true},
+        {element: "-", complete: true},
+        {element: "sin", complete: true},
+        {element: "ref2", complete: true}
+      ], 
+      ...
+    },
+    {
+      
+    }
+  ];
+  */
+  
+  function eval(){
+    
+    var index1 = openStack[openStack.length - 1];
+    var index2 = stack[index1].length - 1;
+    var exp = [];
+    var trans = [];
+    var multDiv = [];
+    var addSub = [];
+    var i;
+    var j;
+    var index;
+    var rightIndex;
+    var leftIndex;
+    var finalValue;
+    
+    
+    if (index2 > -1 && (stack[index1][index2].isNumeric || stack[index1][index2].element.match(/[°!]|ref/) !== null)) {
+      
+      
+      var rowIndex = 0;
+      if (arguments.length > 0) {rowIndex = arguments[0];}
+      var row = stack[rowIndex];
+      
+      //parenthetical groupings and operator indices
+      for (i = 0; i < row.length; i++) {
+        
+        row[i].ref = -1;
+        
+        if (row[i].element.startsWith("ref:")) {
+          
+          var newRowIndex = parseInt(row[i].element.substring(4));
+          row[i].value = eval(newRowIndex);
+          row[i].isNumeric = true;
+          
+          finalValue = row[i].value;
+          
+        } else if (row[i].element.match(/[\^!°√]|sqrt/) !== null) {
+          
+          exp.push(i);
+          row[i].isNumeric = false;
+          
+        } else if (row[i].element.match(/sin|cos|tan|ln|log/) !== null) {
+          
+          trans.push(i)
+          row[i].isNumeric = false;
+          
+        } else if (row[i].element.match(/[×/%]/) !== null) {
+          
+          multDiv.push(i);
+          row[i].isNumeric = false;
+          
+        } else if (row[i].element === "+" || row[i].elemet === "-") {
+          
+          /*We cannot use row[i].element.match(/[+-]/) !== null b/c of the match w/ negative numbers*/
+          
+          addSub.push(i)
+          row[i].isNumeric = false;
+          
+        } else {
+          
+          row[i].isNumeric = true;
+          finalValue = row[i].value;
+          
+        }
+        
+      }
+      
+      //exponents
+      if (exp.length > 0){
+        
+        for (i = 0; i < exp.length; i++) {
+          
+          index = exp[i];
+          rightIndex = index + 1;
+          leftIndex = index - 1;
+          
+          if (row[index].element.match(/[\^√]|sqrt/) !== null) {
+            
+            while (row[rightIndex].ref > -1 && row[rightIndex] !== rightIndex) {rightIndex = row[rightIndex].ref;}
+            
+            if (!row[rightIndex].isNumeric) {return "undefined";}
+            
+            row[rightIndex].ref = index;
+            
+          }
+          
+          
+          if (row[index].element.match(/[\^√!°]/) !== null) {
+            
+            while (row[leftIndex].ref > -1 && row[leftIndex] !== leftIndex) {leftIndex = row[leftIndex].ref;}
+            
+            if (!row[leftIndex].isNumeric) {return "undefined";}
+            
+            row[leftIndex].ref = index;
+            
+          }
+          
+          switch (row[index].element) {
+              
+            case "^":
+              
+              try {row[index].value = Math.pow(row[leftIndex].value, row[rightIndex].value);}
+              catch(err){return "undefined";}
+              row[index].isNumeric = true;
+              break;
+              
+            case "!":
+              
+              var fact = row[leftIndex].value;
+              
+              if (fact === 0 || fact === 1) {
+                
+                row[index].value = 1;
+                
+              } else if (fact > 1) {
+                
+                for (j = fact -1 ; j > 1; j--) {fact *= j;}
+                if (j !== 1) {return "undefined";}
+                row[index].value = fact;
+                
+              } else {
+                
+                return "undefined";
+                
+              }
+              
+              row[index].isNumeric = true;
+              break;
+              
+            case "°":
+              
+              
+              
+              row[index].value = row[leftIndex].value * 3.14159 / 180;
+              row[index].isNumeric = true;
+              break;
+              
+            case "√":
+              
+              try {row[index].value = Math.pow(row[rightIndex].value, 1/row[leftIndex].value);}
+              catch(err){return "undefined";}
+              row[index].isNumeric = true;
+              break;
+              
+            case "sqrt":
+              
+              try {row[index].value = Math.sqrt(row[rightIndex].value);}
+              catch(err) {return "undefined";}
+              row[index].isNumeric = true;
+              break;
+                                    }
+          
+          finalValue = row[index].value;
+          
+        }
+        
+      }
+      
+      //transcendental functions
+      if (trans.length > 0) {
+        
+        for (i = 0; i < trans.length; i++) {
+          
+          index = trans[i];
+          rightIndex = index + 1;
+          leftIndex = index - 1;
+          
+          while (row[rightIndex].ref > -1 && row[rightIndex] !== rightIndex) {rightIndex = row[rightIndex].ref;}
+          
+          if (!row[rightIndex].isNumeric) {return "undefined";}
+          
+          row[rightIndex].ref = index;
+          
+          switch(row[index].element) {
+              
+            case "ln":
+              
+              try {row[index].value = Math.log(row[rightIndex].value);}
+              catch(err) {return "undefined";}
+              row[index].isNumeric = true;
+              break;
+              
+            case "log":
+              
+              try {row[index].value = Math.log10(row[rightIndex].value);}
+              catch(err) {return "undefined";}
+              row[index].isNumeric = true;
+              break;
+              
+            case "sin":
+              
+              row[index].value = Math.sin(row[rightIndex].value);
+              row[index].isNumeric = true;
+              break;
+              
+            case "cos":
+              
+              row[index].value = Math.cos(row[rightIndex].value);
+              row[index].isNumeric = true;
+              break;
+              
+            case "tan":
+              
+              row[index].value = Math.tan(row[rightIndex].value);
+              row[index].isNumeric = true;
+              break;
+              
+            case "arcsin":
+              
+              try {row[index].value = Math.atan(row[rightIndex].value);}
+              catch(err) {return "undefined";}
+              row[index].isNumeric = true;
+              break;
+              
+            case "arccos":
+              
+              try {row[index].value = Math.acos(row[rightIndex].value);}
+              catch(err) {return "undefined";}
+              row[index].isNumeric = true;
+              break;
+              
+            case "arcsin":
+              
+              try {row[index].value = Math.asin(row[rightIndex].value);}
+              catch(err) {return "undefined";}
+              row[index].isNumeric = true;
+              break;
+            
+          }
+          
+          finalValue = row[index].value;
+          
+        }
+        
+      }
+      
+      //multiplication and division
+      if (multDiv.length > 0) {
+        
+        for (i = 0; i < multDiv.length; i++) {
+          
+          index = multDiv[i];
+          rightIndex = index + 1;
+          leftIndex = index - 1;
+          
+          while (row[rightIndex].ref > -1 && row[rightIndex].ref !== rightIndex) {rightIndex = row[rightIndex].ref;}
+          if (!row[rightIndex].isNumeric) {return "undefined";}
+          while (row[leftIndex].ref > -1 && row[leftIndex].ref !== leftIndex) {leftIndex = row[leftIndex].ref;}
+          if (!row[leftIndex].isNumeric) {return "undefined";}
+          
+          row[rightIndex].ref = index;
+          row[leftIndex].ref = index;
+          
+          switch (row[index].element) {
+              
+            case "×":
+              
+              row[index].value = row[rightIndex].value * row[leftIndex].value;
+              row[index].isNumeric = true;
+              break;
+              
+            case "/":
+              
+              row[index].value = row[leftIndex].value / row[rightIndex].value;
+              row[index].isNumeric = true;
+              break;
+              
+            case "%":
+              
+              row[index].value = row[leftIndex].value % row[rightIndex].value;
+              row[index].isNumeric = true;
+              break;
+              
+                                    }
+          
+          finalValue = row[index].value;
+          
+        }
+        
+      }
+      
+      //addition and subtraction
+      if (addSub.length > 0) {
+        
+        for (i = 0; i < addSub.length; i++){
+          
+          index = addSub[i];
+          leftIndex = index - 1;
+          rightIndex = index + 1;
+          
+          while (row[rightIndex].ref > -1 && row[rightIndex] !== rightIndex) {rightIndex = row[rightIndex].ref;}
+          if (!row[rightIndex].isNumeric) {return "undefined";}
+          while (row[leftIndex].ref > -1 && row[leftIndex].ref !== leftIndex) {leftIndex = row[leftIndex].ref;}
+          if (!row[leftIndex].isNumeric) {return "undefined";}
+          
+          row[rightIndex].ref = index;
+          row[leftIndex].ref = index;
+          
+          switch (row[index].element) {
+              
+            case "+":
+              
+              row[index].value = row[rightIndex].value + row[leftIndex].value;
+              row[index].isNumeric = true;
+              break;
+              
+            case "-":
+              
+              row[index].value = row[leftIndex].value - row[rightIndex].value;
+              row[index].isNumeric = true;
+              break;
+              
+                                    }
+          
+          finalValue = row[index].value;
+          
+        }
+        
+      }
+      
+      return finalValue;
+      
+      //nothing needs to go below here
+      
+    } else {
+      
+      return "Undefined";
+      
+    }
+    
+  };
+  
+  function pressDecimal(){
+    
+    var html = $("#input").html();
+    if (arguments.length > 0) {html = arguments[0];}
+    var index1 = openStack[openStack.length - 1];
+    var row = stack[index1];
+    var index2 = row.length - 1;
+    var prevElement;
+    
+    if (index2 != -1) {prevElement = row[index2];}
+    
+    if (index2 == -1){
+      
+      row.push({element: "0.", ref: -1, value: 0, isNumeric: true});
+      html += "0.";
+      if (updateInput) {$("#input").html(html);}
+      
+    } else if (prevElement.isNumeric && prevElement.element.indexOf(".") == -1) {
+      
+      row[index2].element = prevElement.element + ".";
+      html += ".";
+      if (updateInput) {$("#input").html(html);}
+      
+    } else if (!prevElement.isNumeric) {
+      
+      row.push({element: "0.", ref: -1, value: 0, isNumeric: true});
+      html += "0.";
+      if (updateInput) {$("#input").html(html);}
+      
+    }
+    
+    return html;
+        
+  };
+  
+  function pressNum(num) {
+    
+    var html = $("#input").html();
+    if (arguments.length > 1) {html = arguments[1];}
+    var index1 = openStack[openStack.length - 1];
+    var row = stack[index1];
+    var index2 = row.length - 1;
+    var prevElement;
+    
+    if (index2 != -1) {prevElement = row[index2];}
+    
+    if (index2 == -1) {
+      
+      row.push({element: num, ref: -1, value: parseFloat(num), isNumeric: true});
+      html += num;
+      if (updateInput) {$("#input").html(html);}
+      
+    } else if (prevElement.isNumeric) {
+      
+      if (prevElement.element === "0" && num !== "0") {
+        
+        row[index2].element = num;
+        row[index2].value = parseFloat(num);
+        html = html.substring(0, html.length - 1) + num;
+        if (updateInput) {$("#input").html(html);}
+        
+      } else {
+        
+        row[index2].element += num;
+        row[index2].value = parseFloat(row[index2].element);
+        html += num;
+        if (updateInput) {$("#input").html(html);}
+        
+      }
+      
+    } else {
+      
+      if (html.endsWith(")")) {pressOperator("×");}
+      
+      row.push({element: num, ref: -1, value: parseFloat(num), isNumeric: true});
+      html += num;
+      if (updateInput) {$("#input").html(html);}
+      
+    }
+    
+    return html;
+    
+  };
+  
+  function pressSpecNum(arg){
+    //e and pi
+    
+    var html = $("#input").html();
+    if (arguments.length > 1) {html = arguments[1];}
+    var index1 = openStack[openStack.length - 1];
+    var row = stack[index1];
+    var index2 = row.length - 1;
+    var prevElement;
+    var num;
+    
+    if (arg == "e") {
+      
+      num = "2.71828";
+      
+    } else if (arg == "pi") {
+      
+      num = "3.14159";
+      
+    }
+    
+    if (index2 != -1) {prevElement = row[index2];}
+    
+    if (index2 == -1) {
+      
+      row.push({element: num, ref: -1, value: parseFloat(num), isNumeric: true});
+      html += num;
+      if (updateInput) {$("#input").html(html);}
+      
+    } else if (prevElement.isNumeric) {
+      
+      row[index2].element = num;
+      row[index2].value = parseFloat(num);
+      html = html.substring(0, html.length - row[index2].length) + num;
+      if (updateInput) {$("#input").html(html);}
+      
+    } else {
+      
+      if (html.endsWith(")") || prevElement.element.match(/[!°]/) !== null) {pressOperator("×");}
+      
+      row.push({element: num, ref: -1, value: parseFloat(num)});
+      html += num;
+      if (updateInput) {$("#input").html(html);}
+      
+    }
+    
+    return html;
+    
+  };
+  
+  function pressOperator(op){
+    
+      /*
+      Cases:
+  
+      case 1: previous element in stack is an operator
+      case 2: previous element in stack is a number
+      case 3: previous element in stack is a reference
+    */
+    
+    var html = $("#input").html();
+    if (arguments.length > 1) {html = arguments[1];}
+    var index1 = openStack[openStack.length - 1];
+    var row = stack[index1];
+    var index2 = row.length - 1;
+    var output;
+    
+    switch (op) {
+        
+      case "-":
+      case "+":
+      case "×":
+      case "/":
+      case "^":
+      case "√":
+      case "%":
+      case "!":
+      case "°":
+        
+        if (index2 > -1 && (row[index2].isNumeric || row[index2].element.match(/ref|[!°]/) !== null)) {
+          
+          if (op.match(/[√%!°]/) === null && updateOutput) {$("#output").html(eval());}
+          row.push({element: op, ref: -1, isNumeric: false});
+          html += op;
+          if (updateInput) {$("#input").html(html);}
+          if (op.match(/[!°]/) !== null && updateOutput) {$("#output").html(eval());}
+          
+        } else if (index2 == -1 && op == "-") {
+          
+          row.push({element: "-", isNumeric: true});
+          html += "-";
+          if (updateInput) {$("#input").html(html);}
+          
+        }
+        
+        break;
+        
+      case "ln":
+      case "log":
+      case "sin":
+      case "cos":
+      case "tan":
+      case "arcsin":
+      case "arccos":
+      case "arctan":
+      case "sqrt":
+        
+        if (index2 > -1 && updateOutput) {$("#output").html(eval());}
+        if (index2 == -1 || row[index2].isNumeric || row[index2].element.match(/ref|[!°]/) !== null) {
+          
+          var tmpUpdateInput = updateInput;
+          updateInput = false;
+          html = pressOperator("×");
+          updateInput = tmpUpdateInput;
+        
+        }
+        
+        row.push({element: op, ref: -1, isNumeric: false});
+        html += op;
+        if (updateInput) {$("#input").html(html);}
+        pressOpenParen();
+        
+        break;
+        
+      case "^2":
+      case "^-1":
+        
+        updateInput = false;
+        html = pressOperator("^");
+        
+        if (op.length == 2) {
+          
+          updateInput = true;
+          pressNum("2", html);
+          
+          
+        } else {
+          
+          html = pressOpenParen(html);
+          html = pressOperator("-", html);
+          html = pressNum("1", html);
+          updateInput = true;
+          pressCloseParen(html)
+          
+        }
+        
+        if (updateOutput) {$("#output").html(eval());}
+        break;
+        
+        
+              } //switch close paren
+    
+    return html;
+    
+  };
+  
+  function pressOpenParen(){
+    
+    var html = $("#input").html();
+    if (arguments.length > 0) {html = arguments[0];}
+    var index1 = openStack[openStack.length - 1];
+    var row = stack[index1];
+    var index2 = row.length - 1;
+    
+    if (index2 > -1 && (row[index2].isNumeric || row[index2].element.match(/[!°)]/) !== null)) {
+      
+      var tmpUpdateInput = updateInput;
+      updateInput = false;
+      html = pressOperator("×");
+      updateInput = tmpUpdateInput;
+      
+    };
+    
+    stack.push([]);
+    openStack.push(index1 + 1);
+    row.push({element: "ref:" + (stack.length - 1), ref: -1, isNumeric: false});
+    html += "(";
+    if (updateInput) {$("#input").html(html);}
+    
+    return html;
+    
+  };
+  
+  function pressCloseParen(){
+    
+    var html = $("#input").html();
+    if (arguments.length > 0) {html = arguments[0];}
+    var index1 = openStack[openStack.length - 1];
+    var row = stack[index1];
+    var index2 = row.length - 1;
+    
+    if (index2 > -1 && (row[index2].isNumeric || row[index2].element.match(/ref|[!°)]/) !== null) && openStack.length > 1) {
+      
+      openStack.pop();
+      if (updateInput) {$("#input").html(html + ")");}
+      if (updateOutput) {$("#output").html(eval());}
+      
+    }
+    
+  };
+  
+  function pressEquals(){
+    
+    $("#output").html(eval());
+    
+  };
+  
+  /*function pressDegree(){
+    
+    var html = $("#input").html();
+    var index1 = openStack[openStack.length - 1];
+    var row = stack[index1];
+    var index2 = row[row.length - 1];
+    
+    if (index2 > -1 && (row[index2].isNumeric || row[index2].element.match(/ref|[!°]/) !== null)) {
+      
+      row.push({element: "°", ref: -1, isNumeric: false});
+      $("#input").html(html + "°");
+      $("#output").html(eval());
+      
+    }
+    
+  };*/
+  
+  function pressCe(){
+    
+    var html = $("#input").html();
+    var index1 = openStack.length - 1;
+    var row = stack[index1];
+    var index2 = row.length - 1;
+    var element;
+    
+    if (index2 > -1) {
+      
+      element = row[index2].element;
+      
+      if (element.startsWith("ref:")) {
+        
+        index1 = parseInt(element.subsring(4));
+        row = stack[index1];
+        index2 = row.length - 1;
+        
+        openStack.push(index1);
+        
+        $("#input").html(html.substring(0, html.length - 1));
+        
+      } else {
+        
+        row.pop()
+        $("#input").html(html.substring(0,html.length - element.length));
+        
+      }
+      
+    } else if (index1 > 0) {
+      
+      stack.pop();
+      openStack.pop();
+      index1 = openStack[openStack.length - 1];
+      row = stack[index1];
+      index2 = row.length - 1;
+      
+      $("#input").html(html.substring(0, html.length - 1));
+      
+    }
+    
+  };
+  
+  function pressAc(){
+    
+    stack = [[]];
+    openStack = [0];
+    $("#input").html("");
+    $("#output").html("");
+    
+  };
+  
+  $("button").on("click",function(){
+    
+    switch($(this).attr("id")){
+      case "zero":
+      case "one":
+      case "two":
+      case "three":
+      case "four":
+      case "five":
+      case "six":
+      case "seven":
+      case "eight":
+      case "nine":
+        pressNum($(this).html());
+        break;
+      case "openParen":
+        pressOpenParen();
+        break;
+      case "closeParen":
+        pressCloseParen();
+        break;
+      case "decimal":
+        pressDecimal();
+        break;
+      case "equals":
+        pressEquals();
+        break;
+      case "plus":
+      case "minus":
+      case "times":
+      case "divide":
+        pressOperator($(this).html());
+        break;
+      case "root":
+        pressOperator("√");
+        break;
+      case "sin":
+      case "arcsin":
+      case "sqrt":
+      case "cos":
+      case "arccos":
+      case "tan":
+      case "arctan":
+      case "ln":
+      case "log":
+        pressOperator($(this).attr("id"));
+        break;
+      case "mod":
+        pressOperator("%");
+        break;
+      case "square":
+        pressOperator("^2");
+        break;
+      case "inverse":
+        pressOperator("^-1");
+        break;
+      case "power":
+        pressOperator("^");
+        break;
+      case "e":
+      case "pi":
+        pressSpecNum($(this).attr("id"));
+        break;
+      case "factorial":
+        pressOperator("!");
+        break;
+      case "deg":
+        //pressDegree();
+        pressOperator("°");
+        break;
+      case "ce":
+        pressCe();
+        break;
+      case "ac":
+        pressAc();
+        break;
+                        }
+    
+  });
+  
+});
+
+</script>
+
+</body>
+</html>
